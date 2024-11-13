@@ -5,6 +5,8 @@ import {
   StyleSheet,
   Pressable,
 } from "react-native";
+import AntDesign from "@expo/vector-icons/AntDesign";
+
 import { Link } from "expo-router";
 
 export default function Index() {
@@ -48,6 +50,7 @@ const styles = StyleSheet.create({
     color: "beige",
     position: "absolute",
     textAlign: "center",
+    
     zIndex: 1,
   },
   button: {

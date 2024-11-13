@@ -4,7 +4,10 @@ import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Colors } from "@/constants/Colors";
 import { Appearance } from "react-native";
+import { View } from "react-native";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import AntDesign from "@expo/vector-icons/AntDesign";
+
 
 export default function RootLayout() {
 
@@ -23,8 +26,21 @@ export default function RootLayout() {
         name="index"
         options={{
           headerShown:true,
-          title: "Home",
+          title: "COFFUNS",headerStatusBarHeight:50,
           
+          headerRight: () => (
+            <View style={{ flexDirection: "row", marginRight: 20 , gap:10 }}>
+              {/* Cart Icon */}
+              <AntDesign
+                name="shoppingcart"
+                size={34}
+                color="black"
+                style={{ marginRight: 10 }}
+              />
+              <AntDesign name="heart" size={30} color="black" />
+              {/* Optionally add another icon, e.g., Favorite */}
+            </View>
+          ),
           
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
