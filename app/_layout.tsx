@@ -1,37 +1,71 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+import { Stack, Tabs } from "expo-router";
+import React from "react";
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Colors } from "@/constants/Colors";
+import { Appearance } from "react-native";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
+  const colorScheme = Appearance.getColorScheme()
+  const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+    <Tabs screenOptions={{headerStyle:{backgroundColor:theme.headerBackground},headerTintColor:theme.text,headerShadowVisible:false
+     }}>
+      {/* Define the Home Tab */}
+      <Tabs.Screen
+        name="index"
+        options={{
+          headerShown:false,
+          title: "Home",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "home" : "home-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="contact"
+        options={{
+          headerShown:true,
+          title: "contact us",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name="people-circle" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="menu"
+        options={{
+          headerShown:true,
+          headerTitleAlign:'center',
+          title: "coffee shop menu",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name="people-circle" size={24} color="black" />
+          ),
+        }}
+      />
+      {/* <Tabs.Screen 
+        name="profile" 
+        options={{ 
+          title: 'Profile', 
+          headerShown: true, 
+          tabBarLabel: 'Profile'
+        }} 
+      /> */}
+
+      {/* <Tabs.Screen 
+        name="settings" 
+        options={{ 
+          title: 'Settings', 
+          headerShown: true,
+          tabBarLabel: 'Settings' 
+        }} 
+      /> */}
+
+      {/* Additional Stack for screens outside of the main tabs */}
+    </Tabs>
   );
 }
